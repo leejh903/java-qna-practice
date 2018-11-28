@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Arrays;
+
 @Aspect
 @Component
 @Controller
@@ -35,12 +37,27 @@ public class ExampleAspect {
 //        log.error("질문 : " + question.toString());
 //    }
 
-    @Around("@annotation(LogExecutionTime) && args(result, question)")
-    public Object logExecutionTime(ProceedingJoinPoint jp, Result result, Question question) throws Throwable {
-        log.error("질문 : " + question.toString());
-        result = Result.fail("로그인에 실패하셨습니다");  // Result에는 default 생성자가 있어야 합니다.
-        Object[] resultObj = {result, question};  // Target메서드에 있던 매개변수와 같은 개수로 담아 보내는 것이 포인트!!
-        return jp.proceed(resultObj);
+//    @Around("@annotation(LogExecutionTime) && args(result, question)")
+//    public Object logExecutionTime(ProceedingJoinPoint jp, Result result, Question question) throws Throwable {
+//        log.error("질문 : " + question.toString());
+//        result = Result.fail("로그인에 실패하셨습니다");  // Result에는 default 생성자가 있어야 합니다.
+//        Object[] resultObj = {result, question};  // Target메서드에 있던 매개변수와 같은 개수로 담아 보내는 것이 포인트!!
+//        return jp.proceed(resultObj);
+//    }
+
+    @Around("execution(* codesquad.question.QuestionController.*(..))")
+    public Object logExecutionTime(ProceedingJoinPoint jp) throws Throwable {
+        Object[] objects = jp.getArgs();
+        Question question = (Question)Arrays.stream(objects).filter(object -> object instanceof Question).findFirst().orElse(null);
+        Long id = (Long)Arrays.stream(objects).filter(object -> object instanceof Long).findFirst().orElse(null);
+        if(question != null) {
+            System.out.println(question.toString());
+            objects[0] = Result.fail("실패했습니다.");
+        }
+        if(id != null) {
+            System.out.println("아이디 : " + id);
+        }
+        return jp.proceed(objects);
     }
 }
 

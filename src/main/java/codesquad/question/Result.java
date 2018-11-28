@@ -27,4 +27,12 @@ public class Result {
     public String getErrorMessage() {
         return this.errorMessage;
     }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "isValid=" + isValid +
+                ", errorMessage='" + errorMessage + '\'' +
+                '}';
+    }
 }

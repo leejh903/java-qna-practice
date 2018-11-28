@@ -1,11 +1,6 @@
 package codesquad.question;
 
-import codesquad.aspect.ExampleAspect;
 import codesquad.aspect.LogExecutionTime;
-import org.aopalliance.intercept.Joinpoint;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
