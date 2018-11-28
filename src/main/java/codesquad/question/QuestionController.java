@@ -1,10 +1,13 @@
 package codesquad.question;
 
+import codesquad.aspect.ExampleAspect;
 import codesquad.aspect.LogExecutionTime;
 import org.aopalliance.intercept.Joinpoint;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,23 +16,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.websocket.server.PathParam;
-import java.security.Signature;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
 @RequestMapping("/questions")
 public class QuestionController {
+    private static final Logger log = LoggerFactory.getLogger(QuestionController.class);
+
     @Autowired
     private QuestionRepository questionRepository;
 
     @PostMapping("")
     @LogExecutionTime
-    public String createQuestion(Question question) throws Throwable {
+    public String createQuestion(Result result, Question question) throws Throwable {
         question.setTime(createTime());
-        System.out.println("안녕");
-        System.out.println(question.toString());
+        log.error("========================테스트 중입니다========================");
+        if (!result.isValid()) log.error(result.getErrorMessage());
         questionRepository.save(question);
         return "redirect:/";
     }

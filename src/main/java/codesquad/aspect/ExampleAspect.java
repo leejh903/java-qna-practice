@@ -35,11 +35,11 @@ public class ExampleAspect {
 //        log.error("질문 : " + question.toString());
 //    }
 
-    @Around("@annotation(LogExecutionTime) && args(question)")
-    public Object logExecutionTime(ProceedingJoinPoint jp, Question question) throws Throwable {
+    @Around("@annotation(LogExecutionTime) && args(result, question)")
+    public Object logExecutionTime(ProceedingJoinPoint jp, Result result, Question question) throws Throwable {
         log.error("질문 : " + question.toString());
-        question.setWriter("브래다다다아아아");
-        Object[] resultObj = {question};
+        result = Result.fail("로그인에 실패하셨습니다");  // Result에는 default 생성자가 있어야 합니다.
+        Object[] resultObj = {result, question};  // Target메서드에 있던 매개변수와 같은 개수로 담아 보내는 것이 포인트!!
         return jp.proceed(resultObj);
     }
 }
