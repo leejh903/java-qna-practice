@@ -26,10 +26,10 @@ public class QuestionController {
 
     @PostMapping("")
     @LogExecutionTime
-    public String createQuestion(JoinPoint joinPoint, Question question) throws Throwable {
+    public String createQuestion(Question question) throws Throwable {
         question.setTime(createTime());
         System.out.println("안녕");
-        System.out.println(joinPoint.getSignature());
+        System.out.println(question.toString());
         questionRepository.save(question);
         return "redirect:/";
     }

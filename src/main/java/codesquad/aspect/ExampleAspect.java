@@ -35,11 +35,12 @@ public class ExampleAspect {
 //        log.error("질문 : " + question.toString());
 //    }
 
-    @Before("@annotation(LogExecutionTime) && args(question)")
-    public Question logExecutionTime(JoinPoint joinPoint, Question question) throws Throwable {
+    @Around("@annotation(LogExecutionTime) && args(question)")
+    public Object logExecutionTime(ProceedingJoinPoint jp, Question question) throws Throwable {
         log.error("질문 : " + question.toString());
-        joinPoint.getArgs();
-        return new Question(new Long(32), "brad", "brad", "brad", "2018-09-11");
+        question.setWriter("브래다다다아아아");
+        Object[] resultObj = {question};
+        return jp.proceed(resultObj);
     }
 }
 
