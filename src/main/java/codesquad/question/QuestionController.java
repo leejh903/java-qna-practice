@@ -1,5 +1,10 @@
 package codesquad.question;
 
+import codesquad.aspect.LogExecutionTime;
+import org.aopalliance.intercept.Joinpoint;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.websocket.server.PathParam;
+import java.security.Signature;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,13 +25,17 @@ public class QuestionController {
     private QuestionRepository questionRepository;
 
     @PostMapping("")
-    public String createQuestion(Question question) {
+    @LogExecutionTime
+    public String createQuestion(JoinPoint joinPoint, Question question) throws Throwable {
         question.setTime(createTime());
+        System.out.println("안녕");
+        System.out.println(joinPoint.getSignature());
         questionRepository.save(question);
         return "redirect:/";
     }
 
     @GetMapping("/{id}")
+    @LogExecutionTime
     public String showQuestion(@PathVariable Long id, Model model) {
         Question question = findQuestion(id);
         model.addAttribute("question", question);

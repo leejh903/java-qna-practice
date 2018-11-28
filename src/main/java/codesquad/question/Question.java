@@ -15,6 +15,18 @@ public class Question {
     private String contents;
     private String time;
 
+    Question() {
+
+    }
+
+    public Question(Long id, String writer, String title, String contents, String time) {
+        this.id = id;
+        this.writer = writer;
+        this.title = title;
+        this.contents = contents;
+        this.time = time;
+    }
+
     public Long getId() {
         return id;
     }
