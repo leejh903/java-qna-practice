@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Arrays;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 @Aspect
 @Component
 @Controller
 public class ExampleAspect {
-    private static final Logger log = LoggerFactory.getLogger(ExampleAspect.class);
+    private static final Logger log = getLogger(ExampleAspect.class);
 
     @Around("@annotation(LogExecutionTime) && args(id, model)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint, Long id, Model model) throws Throwable {
@@ -50,9 +52,9 @@ public class ExampleAspect {
         Object[] objects = jp.getArgs();
         Question question = (Question)Arrays.stream(objects).filter(object -> object instanceof Question).findFirst().orElse(null);
         Long id = (Long)Arrays.stream(objects).filter(object -> object instanceof Long).findFirst().orElse(null);
-        if(question != null) {
-            System.out.println(question.toString());
-            objects[0] = Result.fail("실패했습니다.");
+        if(question == null) {
+            log.info("---------------redirect요청---------------");
+            return "redirect:/";  // redirect 적용가능
         }
         if(id != null) {
             System.out.println("아이디 : " + id);
