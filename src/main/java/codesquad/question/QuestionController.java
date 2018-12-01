@@ -1,6 +1,5 @@
 package codesquad.question;
 
-import codesquad.aspect.LogExecutionTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class QuestionController {
     private QuestionRepository questionRepository;
 
     @PostMapping("")
-    @LogExecutionTime
+//    @CustomAnnotation
     public String createQuestion(Result result, Question question) throws Throwable {
         question.setTime(createTime());
         log.error("========================테스트 중입니다========================");
@@ -33,7 +32,7 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    @LogExecutionTime
+//    @CustomAnnotation
     public String showQuestion(@PathVariable Long id, Model model) {
         Question question = findQuestion(id);
         model.addAttribute("question", question);

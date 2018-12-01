@@ -18,22 +18,22 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class ExampleAspect {
     private static final Logger log = getLogger(ExampleAspect.class);
 
-    @Around("@annotation(LogExecutionTime) && args(id, model)")
-    public Object logExecutionTime(ProceedingJoinPoint joinPoint, Long id, Model model) throws Throwable {
-        final long start = System.currentTimeMillis();
-        log.error("아이디 : " + id.toString());
-        final Object proceed = joinPoint.proceed();
-        final long executionTime = System.currentTimeMillis() - start;
-        log.error(joinPoint.getSignature() + " executed in " + executionTime + "ms");
-        return proceed;
-    }
+//    @Around("@annotation(CustomAnnotation) && args(id, model)")
+//    public Object logExecutionTime(ProceedingJoinPoint joinPoint, Long id, Model model) throws Throwable {
+//        final long start = System.currentTimeMillis();
+//        log.error("아이디 : " + id.toString());
+//        final Object proceed = joinPoint.proceed();
+//        final long executionTime = System.currentTimeMillis() - start;
+//        log.error(joinPoint.getSignature() + " executed in " + executionTime + "ms");
+//        return proceed;
+//    }
 
-//    @Before("@annotation(LogExecutionTime) && args(question)")
+//    @Before("@annotation(CustomAnnotation) && args(question)")
 //    public void logExecutionTime(Question question) {
 //        log.error("질문 : " + question.toString());
 //    }
 
-//    @Around("@annotation(LogExecutionTime) && args(result, question)")
+//    @Around("@annotation(CustomAnnotation) && args(result, question)")
 //    public Object logExecutionTime(ProceedingJoinPoint jp, Result result, Question question) throws Throwable {
 //        log.error("질문 : " + question.toString());
 //        result = Result.fail("로그인에 실패하셨습니다");  // Result에는 default 생성자가 있어야 합니다.
