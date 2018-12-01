@@ -41,16 +41,36 @@ public class ExampleAspect {
 //        return jp.proceed(resultObj);
 //    }
 
-    @Around("execution(* codesquad.question.QuestionController.*(..)) || execution(* codesquad.user.UserController.*(..))")
-    public Object logExecutionTime(ProceedingJoinPoint jp) throws Throwable {
+//    @Around("execution(* codesquad.question.QuestionController.*(..)) || execution(* codesquad.user.UserController.*(..))")
+//    public Object logExecutionTime(ProceedingJoinPoint jp) throws Throwable {
+//        Object[] objects = jp.getArgs();
+//        Question question = (Question)Arrays.stream(objects).filter(object -> object instanceof Question).findFirst().orElse(null);
+//        Long id = (Long)Arrays.stream(objects).filter(object -> object instanceof Long).findFirst().orElse(null);
+//        if(question == null) {
+//            log.info("---------------redirect요청---------------");
+//            return "redirect:/";  // redirect 적용가능
+//        }
+//        if(id != null) {
+//            System.out.println("아이디 : " + id);
+//        }
+//        return jp.proceed(objects);
+//    }
+
+    @Pointcut("execution(* codesquad.question.QuestionController.*(..)) && args(question,..)")
+    public void test(Question question) {}
+
+    @Around("test(question)")
+//    @Pointcut (value = ".., args(codesquad.question.Question, ..)", argNames = "question")
+    public Object logExecutionTime(ProceedingJoinPoint jp, Question question) throws Throwable {
         Object[] objects = jp.getArgs();
-        Question question = (Question)Arrays.stream(objects).filter(object -> object instanceof Question).findFirst().orElse(null);
-        Long id = (Long)Arrays.stream(objects).filter(object -> object instanceof Long).findFirst().orElse(null);
-        if(question == null) {
+        log.info("---------------aop호출---------------");
+//        Question question = (Question) Arrays.stream(objects).filter(object -> object instanceof Question).findFirst().orElse(null);
+        Long id = (Long) Arrays.stream(objects).filter(object -> object instanceof Long).findFirst().orElse(null);
+        if (question == null) {
             log.info("---------------redirect요청---------------");
             return "redirect:/";  // redirect 적용가능
         }
-        if(id != null) {
+        if (id != null) {
             System.out.println("아이디 : " + id);
         }
         return jp.proceed(objects);
