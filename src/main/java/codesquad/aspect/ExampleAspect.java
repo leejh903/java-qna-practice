@@ -2,17 +2,12 @@ package codesquad.aspect;
 
 
 import codesquad.question.Question;
-import codesquad.question.Result;
-import org.aopalliance.intercept.Joinpoint;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Arrays;
 
@@ -20,7 +15,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @Aspect
 @Component
-@Controller
 public class ExampleAspect {
     private static final Logger log = getLogger(ExampleAspect.class);
 
@@ -47,7 +41,7 @@ public class ExampleAspect {
 //        return jp.proceed(resultObj);
 //    }
 
-    @Around("execution(* codesquad.question.QuestionController.*(..))")
+    @Around("execution(* codesquad.question.QuestionController.*(..)) || execution(* codesquad.user.UserController.*(..))")
     public Object logExecutionTime(ProceedingJoinPoint jp) throws Throwable {
         Object[] objects = jp.getArgs();
         Question question = (Question)Arrays.stream(objects).filter(object -> object instanceof Question).findFirst().orElse(null);
