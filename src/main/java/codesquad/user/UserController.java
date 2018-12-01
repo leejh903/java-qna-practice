@@ -1,5 +1,7 @@
 package codesquad.user;
 
+import codesquad.aspect.CustomAnnotation;
+import codesquad.question.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("")
-    public String listUser(Model model) {
+    public String listUser(@CustomAnnotation Question question, Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "user/list";
     }

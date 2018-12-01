@@ -56,11 +56,17 @@ public class ExampleAspect {
 //        return jp.proceed(objects);
 //    }
 
-    @Pointcut("execution(* codesquad.question.QuestionController.*(..)) && args(question,..)")
-    public void test(Question question) {}
 
-    @Around("test(question)")
+    @Pointcut("execution(* codesquad.question.QuestionController.*(..)) && args(question,..)")
+    public void test1(Question question){
+}
+
+    @Pointcut("execution(* codesquad.user.UserController.*(..)) && args(question,..)")
+    public void test2(Question question) {
+    }
+
 //    @Pointcut (value = ".., args(codesquad.question.Question, ..)", argNames = "question")
+    @Around("test1(question) || test2(question)")
     public Object logExecutionTime(ProceedingJoinPoint jp, Question question) throws Throwable {
         Object[] objects = jp.getArgs();
         log.info("---------------aop호출---------------");
