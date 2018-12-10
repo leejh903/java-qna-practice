@@ -1,6 +1,7 @@
 package codesquad.question;
 
 import codesquad.aspect.CustomAnnotation;
+import codesquad.aspect.UpperCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,10 @@ public class QuestionController {
     private QuestionRepository questionRepository;
 
     @PostMapping("")
-    public String createQuestion(@CustomAnnotation("question") Question question, Result result) throws Throwable {
+    public String createQuestion(@CustomAnnotation("question") Question question, Result result, @UpperCase("contents") String contents) throws Throwable {
         question.setTime(createTime());
         log.error("========================테스트 중입니다========================");
+        log.info("contents 기대값(대문자) : " + contents);
         if (!result.isValid()) log.error(result.getErrorMessage());
         questionRepository.save(question);
         return "redirect:/";
