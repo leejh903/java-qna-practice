@@ -1,10 +1,13 @@
 package codesquad.config;
 
 import codesquad.aspect.UpperCaseResolver;
+import codesquad.security.BasicInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -29,5 +32,17 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(upperCaseResolver());
+    }
+
+    @Bean
+    public BasicInterceptor basicInterceptor() {
+        return new BasicInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(basicInterceptor())
+        .addPathPatterns("/users/**")
+        .excludePathPatterns("/users");
     }
 }
