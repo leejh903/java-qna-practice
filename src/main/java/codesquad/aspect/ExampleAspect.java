@@ -2,6 +2,7 @@ package codesquad.aspect;
 
 
 import codesquad.question.Question;
+import codesquad.question.Result;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
@@ -28,18 +29,18 @@ public class ExampleAspect {
 //        return proceed;
 //    }
 
-//    @Before("@annotation(CustomAnnotation) && args(question)")
-//    public void logExecutionTime(Question question) {
+//    @Before("@annotation(CustomAnnotation) && args(question, result, contents)")
+//    public void logExecutionTime(Question question, Result result, String contents) {
 //        log.error("질문 : " + question.toString());
 //    }
 
-//    @Around("@annotation(CustomAnnotation) && args(result, question)")
-//    public Object logExecutionTime(ProceedingJoinPoint jp, Result result, Question question) throws Throwable {
+    @Before("@annotation(CustomAnnotation)")
+    public void logExecutionTime() throws Throwable {
+        log.info("----- ExampleAspect -----");
 //        log.error("질문 : " + question.toString());
 //        result = Result.fail("로그인에 실패하셨습니다");  // Result에는 default 생성자가 있어야 합니다.
-//        Object[] resultObj = {result, question};  // Target메서드에 있던 매개변수와 같은 개수로 담아 보내는 것이 포인트!!
-//        return jp.proceed(resultObj);
-//    }
+//        Object[] resultObj = {question, result, contents};  // Target메서드에 있던 매개변수와 같은 개수로 담아 보내는 것이 포인트!!
+    }
 
 //    @Around("execution(* codesquad.question.QuestionController.*(..)) || execution(* codesquad.user.UserController.*(..))")
 //    public Object logExecutionTime(ProceedingJoinPoint jp) throws Throwable {
@@ -57,29 +58,29 @@ public class ExampleAspect {
 //    }
 
 
-    @Pointcut("execution(* codesquad.question.QuestionController.*(..)) && args(question,..)")
-    public void test1(Question question){
-}
-
-    @Pointcut("execution(* codesquad.user.UserController.*(..)) && args(question,..)")
-    public void test2(Question question) {
-    }
-
-//    @Pointcut (value = ".., args(codesquad.question.Question, ..)", argNames = "question")
-    @Around("test1(question) || test2(question)")
-    public Object logExecutionTime(ProceedingJoinPoint jp, Question question) throws Throwable {
-        Object[] objects = jp.getArgs();
-        log.info("---------------aop호출---------------");
-//        Question question = (Question) Arrays.stream(objects).filter(object -> object instanceof Question).findFirst().orElse(null);
-        Long id = (Long) Arrays.stream(objects).filter(object -> object instanceof Long).findFirst().orElse(null);
-        if (question == null) {
-            log.info("---------------redirect요청---------------");
-            return "redirect:/";  // redirect 적용가능
-        }
-        if (id != null) {
-            System.out.println("아이디 : " + id);
-        }
-        return jp.proceed(objects);
-    }
+//    @Pointcut("execution(* codesquad.question.QuestionController.*(..)) && args(question,..)")
+//    public void test1(Question question) {
+//    }
+//
+//    @Pointcut("execution(* codesquad.user.UserController.*(..)) && args(question,..)")
+//    public void test2(Question question) {
+//    }
+//
+//    //    @Pointcut (value = ".., args(codesquad.question.Question, ..)", argNames = "question")
+//    @Around("test1(question) || test2(question)")
+//    public Object logExecutionTime(ProceedingJoinPoint jp, Question question) throws Throwable {
+//        Object[] objects = jp.getArgs();
+//        log.info("---------------aop호출---------------");
+////        Question question = (Question) Arrays.stream(objects).filter(object -> object instanceof Question).findFirst().orElse(null);
+//        Long id = (Long) Arrays.stream(objects).filter(object -> object instanceof Long).findFirst().orElse(null);
+//        if (question == null) {
+//            log.info("---------------redirect요청---------------");
+//            return "redirect:/";  // redirect 적용가능
+//        }
+//        if (id != null) {
+//            System.out.println("아이디 : " + id);
+//        }
+//        return jp.proceed(objects);
+//    }
 }
 

@@ -24,7 +24,8 @@ public class QuestionController {
     private QuestionRepository questionRepository;
 
     @PostMapping("")
-    public String createQuestion(@CustomAnnotation("question") Question question, Result result, @UpperCase("contents") String contents) throws Throwable {
+    @CustomAnnotation(value = "CustomAnnotation Value")
+    public String createQuestion(Question question, Result result, Result result2, Result result3, @UpperCase("contents") String contents) throws Throwable {
         question.setTime(createTime());
         log.error("========================테스트 중입니다========================");
         log.info("contents 기대값(대문자) : " + contents);

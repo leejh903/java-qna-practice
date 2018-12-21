@@ -9,8 +9,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @SpringBootApplication
-@ComponentScan({"codesquad"})
-@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class QnaApplication {
     private static final Logger log = getLogger(QnaApplication.class);
 

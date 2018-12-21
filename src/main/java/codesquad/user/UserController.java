@@ -14,7 +14,8 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("")
-    public String listUser(@CustomAnnotation Question question, Model model) {
+    @CustomAnnotation
+    public String listUser(Question question, Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "user/list";
     }
